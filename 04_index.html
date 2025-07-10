@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Quiz</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        color: #aeabab;
+      }
+      .quiz-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .quiz-content-element {
+        width: 100%;
+        max-width: 600px;
+        min-height: 300px;
+        padding: 20px;
+        background: #9b36f2;
+        border-radius: 12px;
+        display: flex !important;
+        justify-content: center;
+        /* align-items: center; */
+      }
+      h1 {
+        color: #faf4ff !important;
+        padding: 6px;
+        border-radius: 12px;
+        /* background: #fff; */
+        margin-bottom: 20px;
+      }
+      .quiz-element {
+        position: relative;
+      }
+      .button-group {
+        margin: 60px auto;
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+      }
+      #newQuiz {
+        background: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #submit {
+        background: #fff;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .quiz-question {
+        margin-bottom: 20px;
+        padding: 6px;
+        border-radius: 12px;
+        background: #fff;
+        text-align: left;
+      }
+      .quiz-answer {
+        margin-top: 20px;
+        text-align: center;
+      }
+      input {
+        width: 100%;
+        border-radius: 12px;
+        outline: none;
+        border: 0;
+        padding: 6px;
+      }
+      .right-answer {
+        margin-top: 12px;
+        margin-bottom: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Quiz Api - https://the-trivia-api.com/api/questions?categories=science&limit=1&difficulty=easy -->
+    <div class="quiz-wrapper">
+      <div class="quiz-content-element">
+        <div class="quiz-element">
+          <h1>Random Quiz</h1>
+          <div class="quiz-question" id="quiz">Quiz</div>
+          <input type="text" id="userAnswer" placeholder="Enter Your Answer" />
+          <div class="quiz-answer" id="message" style="display: none">
+            Answer
+          </div>
+          <div class="button-group">
+            <button type="button" id="newQuiz" onclick="loadQuiz()">
+              New Quiz
+            </button>
+            <button type="button" id="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    let correctAnswer = "";
+    let quiz = document.querySelector("#quiz");
+    let message = document.querySelector("#message");
+    let userAnswer = document.querySelector("#userAnswer");
+    let submitBtn = document.querySelector("#submit");
+    let newBtn = document.querySelector("#newQuiz");
+    async function loadQuiz() {
+      const response = await fetch(
+        " https://the-trivia-api.com/api/questions?categories=science&limit=1&difficulty=easy"
+      );
+      const data = await response.json();
+      console.log(data);
+      quiz.textContent = data[0].question;
+      correctAnswer = data[0].correctAnswer.toLowerCase();
+      userAnswer.value = "";
+      console.log(correctAnswer);
+    }
+
+    submitBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      let typedAnswer = userAnswer.value.trim().toLowerCase();
+      if (typedAnswer === "") {
+        message.style.display = "block";
+        message.textContent = "Please Enter Your Answer";
+      } else if (!typedAnswer) {
+        message.style.display = "block";
+        message.textContent = "Wrong Answer";
+      } else {
+        message.style.display = "block";
+        message.textContent = `You are Right ! Correct Answer is ${correctAnswer}`;
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    });
+
+    loadQuiz();
+  </script>
+</html>

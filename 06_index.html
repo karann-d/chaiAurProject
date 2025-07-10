@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Qr - code</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+      }
+      body {
+        background-color: #212121;
+      }
+      .qr-wrapper {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      p {
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      .qr-content {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        flex-flow: column;
+        background: #fff;
+        padding: 60px;
+        width: 350px;
+        border-radius: 12px;
+        position: relative;
+      }
+      button {
+        padding: 8px;
+        outline: none;
+        background-color: #9b36f2;
+        border: none;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 12px;
+        /* margin-top: 1rem; */
+      }
+      input {
+        padding: 8px;
+        /* outline: 0; */
+        border: 0;
+        background-color: rgba(221, 221, 221, 0.5);
+        border-radius: 6px;
+      }
+      .qr-block {
+        width: 200px;
+        border-radius: 5px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 1s;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        padding: 20px;
+      }
+      .qr-block.qr-img {
+        width: 100%;
+        padding: 10px;
+        /* border-radius: 6px; */
+      }
+      .show {
+        max-height: 300px;
+        margin: 10px auto;
+        border: 1px solid #d1d1d1;
+      }
+      .error {
+        animation: shake 0.2s linear 12;
+      }
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(0px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="qr-wrapper">
+      <div class="qr-content">
+        <p>Enter Text Or Url</p>
+        <input type="text" placeholder="Eg.youtube.com" id="userInput" />
+        <div class="qr-block" id="qrBlock">
+          <img src="" alt="" class="qr-img" id="qrImg" />
+        </div>
+        <button type="submit" onclick="loadQuiz()">Generate Qr</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    // https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=
+    let userInput = document.querySelector("#userInput");
+    let qrBlock = document.querySelector("#qrBlock");
+    let qrImg = document.querySelector("#qrImg");
+
+    function loadQuiz() {
+      if (userInput.value.length > 0) {
+        qrImg.src =
+          "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" +
+          userInput.value;
+        qrBlock.classList.toggle("show");
+      } else {
+        userInput.classList.toggle("error");
+      }
+    }
+  </script>
+</html>

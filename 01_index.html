@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To Do List</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: sans-serif;
+      }
+      input {
+        padding: 12px;
+        border: 1px solid #dddd;
+        outline: none;
+        width: 90%;
+        border-radius: 20px !important;
+        font-size: 1.2rem;
+      }
+      .container {
+        width: 600px;
+        height: 100%;
+        background: transparent;
+        text-align: left;
+        color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        border: 1px solid #fff;
+        margin-top: 80px;
+      }
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      form {
+        display: flex;
+        gap: 10px;
+      }
+      button {
+        background-color: #9b36f2;
+        outline: none;
+        border: 1px solid #fff;
+        width: 80px;
+        color: #fff;
+        font-size: 1.2rem;
+        border-radius: 20px;
+      }
+      ul {
+        font-size: 1rem !important;
+        margin-top: 12px;
+        list-style: none;
+        background-color: #fff;
+        width: 100%;
+        border-radius: 12px !important;
+        color: #9b36f2;
+      }
+      li {
+        padding: 12px;
+        position: relative;
+      }
+      h1 {
+        padding-bottom: 20px;
+      }
+      .close {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        font-size: 17px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body style="background: #212121; color: #fff">
+    <div class="container">
+      <div class="content-block">
+        <h1>To do List</h1>
+        <div class="input">
+          <form action="#">
+            <input type="text" id="userInput" placeholder="Write Your Task" />
+            <button type="button">Add</button>
+          </form>
+        </div>
+        <ul>
+          <!-- <li class = "">Task 1</li> -->
+        </ul>
+      </div>
+    </div>
+  </body>
+  <script>
+    const userInput = document.querySelector("#userInput");
+    const listParent = document.querySelector("ul");
+    const btn = document.querySelector("button");
+    btn.addEventListener("click", () => {
+      if (userInput.value === "") {
+        alert("Please Enter Your Task");
+      } else {
+        let li = document.createElement("li");
+        // li.classList.add("check");
+        li.textContent = userInput.value;
+        listParent.appendChild(li);
+        userInput.value = "";
+        let span = document.createElement("span");
+        span.classList.add("close");
+        span.textContent = "\u00d7";
+        li.appendChild(span);
+      }
+    });
+    listParent.addEventListener("click", function (e) {
+      if (e.target.classList.contains("close")) {
+        e.target.parentElement.remove();
+        e.target.classList.toggle("check");
+      }
+    });
+  </script>
+</html>
