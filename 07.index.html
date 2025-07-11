@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+
+    <title>Password Generator | Karan Dhakad</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: linear-gradient(to right bottom, #ff0f7b, #f89b29, #9b36f2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        height: 100vh;
+      }
+      .password-block {
+        background: #ffffff;
+        border-radius: 12px;
+        height: 300px;
+        padding: 40px;
+        position: relative;
+      }
+      /* .password-wrapper {
+        width: 100%;
+        height: 100%;
+      } */
+      .password-headline {
+        text-align: center;
+      }
+      #password-input {
+        background: white;
+        padding: 8px;
+        color: #0c0407;
+        border-radius: 8px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        outline: none;
+        width: 500px;
+        padding: 12px;
+      }
+      .check-boxes div {
+        display: flex;
+        width: 500px;
+      }
+      .range {
+        width: 500px;
+        margin-top: 12px;
+      }
+      h1 {
+        margin: 0;
+        margin-bottom: 12px;
+      }
+      .copy-icon {
+        width: 95px;
+        background: #9b36f2;
+        padding: 6px 0 6px 0;
+        text-align: center;
+        font-size: 12px;
+        color: white;
+        border-radius: 8px;
+        position: absolute;
+        right: 40px;
+      }
+      .copy-icon:hover {
+        background: rgba(155, 54, 242, 0.8);
+      }
+      .copy-pass-check-group {
+        display: flex;
+        padding: 10px 0 10px 0;
+        align-items: center;
+      }
+      .strong-password {
+        margin-right: 5px;
+        font-weight: 900 !important;
+      }
+      .label {
+        margin-right: 20px;
+      }
+      .include-check-boxes {
+        display: flex;
+        justify-content: flex-end;
+        gap: 5px;
+        padding: 8px 0 8px 0;
+      }
+      #last-label {
+        margin-right: 0 !important;
+      }
+      .rangeText {
+        position: absolute;
+        left: 40px;
+        bottom: 78px;
+      }
+      label,
+      p,
+      span {
+        font-weight: 600 !important;
+      }
+      .btn {
+        outline: none;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        width: 200px;
+        background: #9b36f2;
+        color: #fff;
+        font-size: 18px;
+        /* background: #386ae8; */
+      }
+      .button-block {
+        display: flex;
+        justify-content: center;
+        margin-block: 0.8rem;
+      }
+      input[type="checkbox"] {
+        font-size: 2.5rem !important;
+      }
+      .error {
+        animation: shake 0.2s linear 10;
+      }
+      @keyframes shake {
+        0% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        50% {
+          transform: translateX(0px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="password-block">
+      <div class="password-wrapper">
+        <div class="password-content">
+          <div class="password-headline-block">
+            <div class="password-headline">
+              <h1>Password Generator</h1>
+              <input type="text" name="Password" id="password-input" />
+              <div class="copy-pass-check-group">
+                <input type="checkbox" class="strong-password" />
+                <label for="strong-password">Strong Password</label>
+                <div class="copy-icon">
+                  <i class="fa-regular fa-clone"></i>
+                  <span class="coppied">Copy</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="password-include-block">
+            <div class="password-include-element">
+              <div class="check-boxes">
+                <div class="range-wrapper">
+                  <input
+                    type="range"
+                    class="range"
+                    id="range"
+                    max="30"
+                    min="1"
+                    value="8"
+                  />
+                  <p class="rangeText">
+                    Character length : <span id="length">8</span>
+                  </p>
+                </div>
+                <div class="include-checkboxes-block">
+                  <div class="include-check-boxes">
+                    <input type="checkbox" id="upper-check" />
+                    <label for="A-Z" class="label">A-Z</label>
+                    <input type="checkbox" id="lower-check" />
+                    <label for="a-z" class="label">a-z</label>
+                    <input type="checkbox" id="num-check" />
+                    <label for="0-9" class="label">0-9</label>
+                    <input type="checkbox" id="symbol-check" />
+                    <label for="!@#" class="label" id="last-label">!@#</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="button-block">
+            <div class="button">
+              <button class="btn" id="btn">Generate</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const uppr = document.querySelector("#upper-check");
+    const lower = document.querySelector("#lower-check");
+    const num = document.querySelector("#num-check");
+    const symb = document.querySelector("#symbol-check");
+    // console.log(symb);
+    const range = document.querySelector("#range");
+    const rangeLength = document.querySelector("#length");
+    const userPassword_block = document.querySelector("#password-input");
+    const strong = document.querySelector(".strong-password");
+    const genPassword = document.querySelector("#btn");
+    const realIcon = document.querySelector("i");
+
+    function userOutput() {
+      const userLength = parseInt(range.value, 10);
+      const includeUpper = uppr.checked;
+      const includeLower = lower.checked;
+      const includeNum = num.checked;
+      const includeSymb = symb.checked;
+      const includeStrong = strong.checked;
+
+      const userPass = userPassword(
+        userLength,
+        includeUpper,
+        includeLower,
+        includeNum,
+        includeSymb,
+        strong
+      );
+      userPassword_block.value = userPass;
+    }
+
+    function userPassword(
+      length,
+      includeUppercase,
+      includeLowercase,
+      includeNumbers,
+      includeSymbols,
+      includeStrong
+    ) {
+      const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+      const numbers = "0123456789";
+      const symbols = "!@#$%^&*><?{}";
+
+      let mustHave = [];
+      let characters = "";
+
+      if (includeUppercase) {
+        characters += upperCase;
+        mustHave.push(upperCase[Math.floor(Math.random() * upperCase.length)]);
+      }
+      if (includeLowercase) {
+        characters += lowerCase;
+        mustHave.push(lowerCase[Math.floor(Math.random() * lowerCase.length)]);
+      }
+      if (includeNumbers) {
+        characters += numbers;
+        mustHave.push(numbers[Math.floor(Math.random() * numbers.length)]);
+      }
+      if (includeSymbols) {
+        characters += numbers;
+        mustHave.push(symbols[Math.floor(Math.random() * symbols.length)]);
+      }
+
+      let password = [...mustHave];
+      for (let i = password.length; i < length; i++) {
+        password.push(
+          characters[Math.floor(Math.random() * characters.length)]
+        );
+      }
+      if (includeStrong) {
+        password = password.sort(() => Math.random() - 0.5);
+      }
+
+      return password.join("");
+    }
+
+    genPassword.addEventListener("click", userOutput);
+    range.addEventListener("input", () => {
+      rangeLength.textContent = range.value;
+    });
+    let copyPassword = document.querySelector(".copy-icon");
+
+    copyPassword.addEventListener("click", () => {
+      if (userPassword_block.value.trim() === "") {
+        copyPassword.classList.add("error");
+
+        userPassword_block.value = "Please Generate The Password !!";
+
+        setTimeout(() => {
+          userPassword_block.value = "";
+          copyPassword.classList.remove("error");
+        }, 1500);
+      } else {
+        navigator.clipboard.writeText(userPassword_block.value);
+
+        copyPassword.innerHTML = `<i class="fa-solid fa-check"></i> Copied!`;
+
+        setTimeout(() => {
+          copyPassword.innerHTML = `<i class="fa-regular fa-clone"></i> Copy`;
+        }, 1500);
+      }
+    });
+  </script>
+</html>
